@@ -27,7 +27,6 @@ No routing, no backend, no external state management. Transaction data is hardco
 ## Known Issues (by design)
 
 - "Freelance Work" is typed as `"expense"` instead of `"income"`
-- No delete functionality for transactions
 
 ## ESLint
 
