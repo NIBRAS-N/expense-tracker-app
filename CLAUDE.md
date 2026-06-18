@@ -17,11 +17,15 @@ No test framework is configured.
 
 ## Architecture
 
-Single-component app — all state and UI live in `src/App.jsx`. There is no routing, no backend, and no external state management. Transaction data is hardcoded in component state (not persisted).
+No routing, no backend, no external state management. Transaction data is hardcoded in component state (not persisted).
+
+- `App.jsx` — owns `transactions` state and the `categories` list; passes data down to child components
+- `Summary.jsx` — receives `transactions`, computes totals (income, expenses, balance) internally
+- `TransactionForm.jsx` — owns form state (`description`, `amount`, `type`, `category`); calls `onAddTransaction` callback to add entries
+- `TransactionList.jsx` — owns filter state (`filterType`, `filterCategory`); renders filtered transaction table
 
 ## Known Issues (by design)
 
-- Transaction amounts are stored as strings, causing arithmetic bugs in summary totals (string concatenation instead of addition)
 - "Freelance Work" is typed as `"expense"` instead of `"income"`
 - No delete functionality for transactions
 
