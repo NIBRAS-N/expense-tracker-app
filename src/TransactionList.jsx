@@ -4,6 +4,8 @@ function TransactionList({ transactions, categories, onDeleteTransaction }) {
   const [filterType, setFilterType] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
 
+  const fmt = (n) => parseFloat(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
   let filteredTransactions = transactions;
   if (filterType !== "all") {
     filteredTransactions = filteredTransactions.filter(t => t.type === filterType);
@@ -24,7 +26,7 @@ function TransactionList({ transactions, categories, onDeleteTransaction }) {
         <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
           <option value="all">All Categories</option>
           {categories.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
+            <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>
           ))}
         </select>
       </div>
@@ -36,17 +38,17 @@ function TransactionList({ transactions, categories, onDeleteTransaction }) {
             <th>Description</th>
             <th>Category</th>
             <th>Amount</th>
-            <th>Actions</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {filteredTransactions.map(t => (
             <tr key={t.id}>
-              <td>{t.date}</td>
+              <td>{new Date(t.date + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</td>
               <td>{t.description}</td>
-              <td>{t.category}</td>
+              <td><span className={`category-badge category-${t.category}`}>{t.category}</span></td>
               <td className={t.type === "income" ? "income-amount" : "expense-amount"}>
-                {t.type === "income" ? "+" : "-"}${t.amount}
+                {t.type === "income" ? "+$" : "-$"}{fmt(t.amount)}
               </td>
               <td>
                 <button className="delete-btn" onClick={() => onDeleteTransaction(t.id)}>Delete</button>

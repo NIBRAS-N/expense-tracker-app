@@ -1,0 +1,2 @@
+- [Project Architecture](project_architecture.md) -- Component hierarchy, data flow, and known intentional bugs
+- [Codebase Patterns](codebase_patterns.md) -- Recurring code patterns, DRY violations, a11y gaps, and type inconsistencies

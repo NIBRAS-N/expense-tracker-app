@@ -1,13 +1,13 @@
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const COLORS = {
-  food: '#FF6384',
-  housing: '#36A2EB',
-  utilities: '#FFCE56',
-  transport: '#4BC0C0',
-  entertainment: '#9966FF',
-  salary: '#FF9F40',
-  other: '#C9CBCF',
+  food: '#F59E0B',
+  housing: '#6366F1',
+  utilities: '#F97316',
+  transport: '#0EA5E9',
+  entertainment: '#EC4899',
+  salary: '#10B981',
+  other: '#94A3B8',
 };
 
 function SpendingChart({ transactions }) {
@@ -18,9 +18,10 @@ function SpendingChart({ transactions }) {
       return acc;
     }, {});
 
-  const data = Object.entries(expensesByCategory).map(([name, value]) => ({
-    name,
+  const data = Object.entries(expensesByCategory).map(([key, value]) => ({
+    name: key.charAt(0).toUpperCase() + key.slice(1),
     value,
+    key,
   }));
 
   if (data.length === 0) {
@@ -48,10 +49,18 @@ function SpendingChart({ transactions }) {
               label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
             >
               {data.map((entry) => (
-                <Cell key={entry.name} fill={COLORS[entry.name] || COLORS.other} />
+                <Cell key={entry.key} fill={COLORS[entry.key] || COLORS.other} />
               ))}
             </Pie>
-            <Tooltip formatter={(value) => `$${value}`} />
+            <Tooltip
+              formatter={(value) => `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+              contentStyle={{
+                borderRadius: '8px',
+                border: '1px solid #E2E8F0',
+                boxShadow: '0 4px 12px rgb(0 0 0 / 0.08)',
+                fontFamily: "'DM Mono', monospace",
+              }}
+            />
             <Legend />
           </PieChart>
         </ResponsiveContainer>
